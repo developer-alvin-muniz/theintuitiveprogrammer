@@ -2,9 +2,9 @@ package com.alvinmuniz.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="users")
@@ -21,14 +21,9 @@ public class User {
     @Column
     private String password;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts;
-
     public User() { }
 
-    public User(Long id, String username, String password) {
-        this.id = id;
+    public User( String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -56,4 +51,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword());
+    }
+
+
 }

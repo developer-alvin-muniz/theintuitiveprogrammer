@@ -56,14 +56,13 @@ class PostControllerTest {
         testPost.setTitle("A set title");
         testPost.setUser(user);
 
-        when(postService.save(any(Post.class))).thenReturn(testPost);
+        when(postService.createPost(any(Post.class))).thenReturn(testPost);
 
-        mockMvc.perform(post("/posts")
+        mockMvc.perform(post("http://localhost:9092/posts")
                 .content(jsonMapper.writeValueAsString(testPost))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value(testPost.getTitle()))
-        .andExpect(jsonPath("$.id").value(notNull()));
+                .andExpect(jsonPath("$.title").value(testPost.getTitle()));
 
     }
 }

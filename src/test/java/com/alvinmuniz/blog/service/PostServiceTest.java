@@ -28,10 +28,8 @@ public class PostServiceTest {
         Post testPost = new Post();
         testPost.setTitle("Test Post");
         testPost.setDate(new Date());
-        when(postRepository.save(any(Post.class))).thenReturn(new Post());
-
+        when(postRepository.save(any(Post.class))).thenReturn(testPost);
         Post createdPost = postService.createPost(testPost);
-
         assertThat(createdPost.getTitle()).isSameAs(testPost.getTitle());
     }
 }

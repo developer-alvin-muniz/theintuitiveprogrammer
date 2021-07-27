@@ -1,17 +1,29 @@
 package com.alvinmuniz.blog.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.alvinmuniz.blog.model.Post;
+import com.alvinmuniz.blog.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("blog")
 public class PostController {
 
     @GetMapping("/")
     public void indexPage() {
 //        return getAllPosts();
+    }
+
+    private PostService postService;
+
+    @Autowired
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
+
+    @PostMapping("posts")
+    public Post createPost(@RequestBody Post post) {
+        return this.postService.createPost(post);
     }
 
 }
