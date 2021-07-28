@@ -54,7 +54,6 @@ class PostControllerTest {
         user.setPassword("123456");
         testPost.setDate(new Date());
         testPost.setTitle("A set title");
-        testPost.setUser(user);
 
         when(postService.createPost(any(Post.class))).thenReturn(testPost);
 

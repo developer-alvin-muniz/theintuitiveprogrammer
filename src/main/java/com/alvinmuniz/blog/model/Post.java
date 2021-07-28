@@ -26,16 +26,9 @@ public class Post {
     @Column
     private Date date;
 
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public Post(String title, Date date, User user) {
+    public Post(String title, Date date) {
         this.title = title;
         this.date = date;
-        this.user = user;
     }
 
 
