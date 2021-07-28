@@ -1,6 +1,7 @@
 CREATE TABLE USERS
 (
-    ID NUMBER(15,0),
-    USERNAME VARCHAR(50),
-    PASSWORD VARCHAR(100)
-)
+    ID number(15,0) not null,
+    USERNAME varchar(50),
+    PASSWORD varchar(100),
+    primary key (ID)
+);

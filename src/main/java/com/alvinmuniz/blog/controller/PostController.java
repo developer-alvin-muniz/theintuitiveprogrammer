@@ -6,13 +6,11 @@ import com.alvinmuniz.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-public class PostController {
+import java.util.List;
 
-    @GetMapping("/")
-    public void indexPage() {
-//        return getAllPosts();
-    }
+@RestController
+@RequestMapping("admin")
+public class PostController {
 
     private PostService postService;
 
@@ -25,6 +23,12 @@ public class PostController {
     public Post createPost(@RequestBody Post post) {
         System.out.println(post);
         return this.postService.createPost(post);
+    }
+
+    @GetMapping("posts")
+    public List<Post> getAllPosts() {
+
+        return this.postService.getAllPosts();
     }
 
 }

@@ -18,9 +18,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -55,8 +59,6 @@ public class PostIntegrationTest {
         mockMvc =
                 MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
         objectMapper = new ObjectMapper();
-        this.postRepository.deleteAll();
-        this.postRepository.flush();
 
         expectedPost = Post.builder()
                 .title("Expected")
@@ -81,7 +83,7 @@ public class PostIntegrationTest {
 
         //THEN
         MvcResult mvcResult =
-                        mockMvc.perform(post("/posts")
+                        mockMvc.perform(post("/admin/posts")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(jsonPost))
                                 .andExpect(status().isOk())
@@ -91,6 +93,42 @@ public class PostIntegrationTest {
 
         assertThat(expectedPost).isEqualTo(actualPost);
     }
+
+    @Test
+    public void getAllPostsTest() throws Exception {
+        //GIVEN
+
+        Post expectedPostEntity = Post.builder()
+                .title("Expected")
+                .date(null)
+                .build();
+
+        Post expectedPostEntity2 = Post.builder()
+                .title("Expected2")
+                .date(null)
+                .build();
+
+
+        //WHEN
+        List<Post> expectedList = Arrays.asList(expectedPostEntity,
+                expectedPostEntity2);
+        expectedList.forEach(post -> postRepository.save(post));
+
+        String jsonList = objectMapper.writeValueAsString(expectedList);
+
+        //THEN
+        MvcResult mvcResult =
+                mockMvc.perform(get("/admin/posts")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andReturn();
+
+        System.out.println(jsonList);
+        System.out.println(mvcResult.getResponse().getContentAsString());
+
+        assertThat(jsonList).isEqualTo(mvcResult.getResponse().getContentAsString());
+    }
+
 
 
 }
