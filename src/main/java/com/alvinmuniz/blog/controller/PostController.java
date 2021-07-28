@@ -23,6 +23,7 @@ public class PostController {
 
     @PostMapping("posts")
     public Post createPost(@RequestBody Post post) {
+        System.out.println(post);
         return this.postService.createPost(post);
     }
 

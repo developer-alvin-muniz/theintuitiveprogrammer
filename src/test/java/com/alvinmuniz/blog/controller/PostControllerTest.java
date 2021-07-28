@@ -8,60 +8,52 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.notNull;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(PostController.class)
+@RunWith(MockitoJUnitRunner.class)
 class PostControllerTest {
+
+    private Post expectedPost;
+
+    @Mock
+    PostService postService;
+
+    @InjectMocks
+    PostController postController;
 
     @BeforeEach
     void setUp() {
+        initMocks(this);
+        expectedPost = Post.builder()
+                .title("Expected")
+                .date(null)
+                .build();
     }
+
 
     @AfterEach
     void tearDown() {
     }
 
-    ObjectMapper jsonMapper = new ObjectMapper();
-
-    @MockBean
-    PostService postService;
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Test
     public void it_should_return_created_post() throws Exception {
+        when(postService.createPost(any())).thenReturn(expectedPost);
 
-        Post testPost = new Post();
-        User user = new User();
-        user.setUsername("Test");
-        user.setPassword("123456");
-        testPost.setDate(new Date());
-        testPost.setTitle("A set title");
+        Post requestPost = Post.builder()
+                .title("Expected")
+                .date(null)
+                .build();
+        Post addedPost = postController.createPost(requestPost);
 
-        when(postService.createPost(any(Post.class))).thenReturn(testPost);
-
-        mockMvc.perform(post("http://localhost:9092/posts")
-                .content(jsonMapper.writeValueAsString(testPost))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value(testPost.getTitle()));
-
+        verify(postService).createPost(requestPost);
+        verifyNoMoreInteractions(postService);
+        assertThat(addedPost).isEqualToComparingFieldByField(expectedPost);
     }
 }
