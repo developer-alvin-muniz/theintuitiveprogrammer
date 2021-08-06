@@ -1,16 +1,22 @@
 package com.alvinmuniz.blog.service;
 
 import com.alvinmuniz.blog.model.Post;
+import com.alvinmuniz.blog.model.User;
 import com.alvinmuniz.blog.repository.PostRepository;
+import com.alvinmuniz.blog.repository.UserRepository;
+import com.alvinmuniz.blog.security.WithCustomUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,25 +28,21 @@ public class PostServiceTest {
     @Mock
     PostRepository postRepository;
 
+    @Mock
+    UserRepository userRepository;
+
+    @Mock
+    SecurityContextHolder securityContextHolder;
+
     @InjectMocks
     PostService postService;
 
     @Test
-    public void when_save_post_it_should_return_post() {
-        Post testPost = new Post();
-        testPost.setTitle("Test Post");
-        testPost.setDate(new Date());
-        when(postRepository.save(any(Post.class))).thenReturn(testPost);
-        Post createdPost = postService.createPost(testPost);
-        assertThat(createdPost.getTitle()).isSameAs(testPost.getTitle());
-    }
-
-    @Test
     public void it_should_return_all_posts() {
-       Post post1 = Post.builder()
-               .title("Hello")
-               .date(null)
-               .build();
+        Post post1 = Post.builder()
+                .title("Hello")
+                .date(null)
+                .build();
 
         Post post2 = Post.builder()
                 .title("There")
@@ -53,8 +55,12 @@ public class PostServiceTest {
 
         List<Post> actual = postService.getAllPosts();
 
-        for(int i = 0; i < expected.size(); i++)
+        for (int i = 0; i < expected.size(); i++)
             assertThat(expected.get(i)).isEqualTo(actual.get(i));
 
     }
+
+
+
+
 }

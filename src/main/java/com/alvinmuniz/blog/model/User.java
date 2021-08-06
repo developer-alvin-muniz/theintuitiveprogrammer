@@ -41,6 +41,9 @@ public class User {
         this.password = password;
     }
 
+    public User(Long userId, String username, String s) {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

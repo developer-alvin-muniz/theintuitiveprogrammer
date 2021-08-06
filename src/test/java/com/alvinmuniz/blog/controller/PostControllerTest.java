@@ -11,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -46,6 +50,7 @@ class PostControllerTest {
     public void it_should_return_created_post() throws Exception {
         when(postService.createPost(any())).thenReturn(expectedPost);
 
+
         Post requestPost = Post.builder()
                 .title("Expected")
                 .date(null)
@@ -55,5 +60,41 @@ class PostControllerTest {
         verify(postService).createPost(requestPost);
         verifyNoMoreInteractions(postService);
         assertThat(addedPost).isEqualToComparingFieldByField(expectedPost);
+    }
+
+    @Test
+    public void it_should_retrieve_posts_by_user_id() {
+        List<Post> expectedList = Arrays.asList(
+                Post.builder()
+                        .title("First")
+                        .date(null)
+                        .userId(3L)
+                        .build(),
+                Post.builder()
+                        .title("Second")
+                        .userId(3L)
+                        .date(null)
+                        .build()
+        );
+
+        when(postService.findPostsByUserId(3L)).thenReturn(expectedList);
+
+        List<Post> actualList = Arrays.asList(
+                Post.builder()
+                        .title("First")
+                        .date(null)
+                        .userId(3L)
+                        .build(),
+                Post.builder()
+                        .title("Second")
+                        .date(null)
+                        .userId(3L)
+                        .build()
+        );
+
+       List<Post> actualPostList = postController.findPostsByUserId(1L);
+
+       verify(postService).findPostsByUserId(1L);
+       verifyNoMoreInteractions(postService);
     }
 }

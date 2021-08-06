@@ -43,15 +43,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    // fetching data for user for authentication
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService);
     }
+
     @Bean
-    @Scope(value= WebApplicationContext.SCOPE_REQUEST, proxyMode =
-            ScopedProxyMode.TARGET_CLASS)
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public MyUserDetails myUserDetails() {
-        return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
     }
 
 
@@ -60,8 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
-                "/auth/users","/auth/users/login","/auth/users/register",
-                "/posts"
+                "/auth/users","/auth/users/login"
+                ,"/auth/users/register","/posts"
         ).permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

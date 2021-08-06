@@ -1,27 +1,33 @@
 package com.alvinmuniz.blog.integration;
 
 import com.alvinmuniz.blog.model.Post;
+import com.alvinmuniz.blog.model.User;
 import com.alvinmuniz.blog.repository.PostRepository;
 import com.alvinmuniz.blog.repository.UserRepository;
+import com.alvinmuniz.blog.security.WithCustomUser;
+import com.alvinmuniz.blog.service.PostService;
+import com.alvinmuniz.blog.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,8 +42,7 @@ public class PostIntegrationTest {
     @Autowired
     private final PostRepository postRepository;
 
-    @Autowired
-    private final UserRepository userRepository;
+     private final UserRepository userRepository;
 
     private MockMvc mockMvc;
 
@@ -47,7 +52,8 @@ public class PostIntegrationTest {
 
 
     @Autowired
-    public PostIntegrationTest(WebApplicationContext webApplicationContext, PostRepository postRepository, UserRepository userRepository) {
+    public PostIntegrationTest(WebApplicationContext webApplicationContext,
+                               PostRepository postRepository, UserRepository userRepository, UserService userService, PostService postService) {
         this.webApplicationContext = webApplicationContext;
         this.postRepository = postRepository;
         this.userRepository = userRepository;
@@ -67,18 +73,20 @@ public class PostIntegrationTest {
     }
 
     @Test
-    @Transactional
-    public void getByIdTest() throws Exception {
+    @WithCustomUser(username = "Alvin")
+    @DisplayName("It should save a post successfully with a userId at admin/post")
+     public void save_post_with_userId() throws Exception {
         //GIVEN
 
         Post expectedPostEntity = Post.builder()
-                .id(1L)
                 .title("Expected")
+                .content("Hello")
                 .date(null)
                 .build();
 
         //WHEN
-        expectedPost = postRepository.save(expectedPost);
+        expectedPostEntity = postRepository.save(expectedPostEntity);
+
         String jsonPost = objectMapper.writeValueAsString(expectedPostEntity);
 
         //THEN
@@ -91,27 +99,19 @@ public class PostIntegrationTest {
         Post actualPost =
                 objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Post.class);
 
-        assertThat(expectedPost).isEqualTo(actualPost);
+        assertThat(expectedPostEntity).isEqualToIgnoringGivenFields( actualPost,"userId","date");
+
     }
 
     @Test
+    @DisplayName("It should return a list of all of the posts stored")
     public void getAllPostsTest() throws Exception {
         //GIVEN
 
-        Post expectedPostEntity = Post.builder()
-                .title("Expected")
-                .date(null)
-                .build();
-
-        Post expectedPostEntity2 = Post.builder()
-                .title("Expected2")
-                .date(null)
-                .build();
+        List<Post> expectedList = postRepository.findAll();
 
 
         //WHEN
-        List<Post> expectedList = Arrays.asList(expectedPostEntity,
-                expectedPostEntity2);
         expectedList.forEach(post -> postRepository.save(post));
 
         String jsonList = objectMapper.writeValueAsString(expectedList);
@@ -123,10 +123,47 @@ public class PostIntegrationTest {
                         .andExpect(status().isOk())
                         .andReturn();
 
-        System.out.println(jsonList);
-        System.out.println(mvcResult.getResponse().getContentAsString());
-
         assertThat(jsonList).isEqualTo(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    @DisplayName("It should return a list of all of the posts saved under a userId")
+    public void getAllPostsByUserId() throws Exception {
+        userRepository.save(User.builder()
+                .id(2L)
+                .username("Test 2")
+                .password("12345")
+                .build());
+
+        // Given a list of posts
+        List<Post> expectedList = Arrays.asList(
+                Post.builder()
+                        .userId(2L)
+                        .title("First")
+                        .date(null)
+                        .build(),
+                Post.builder()
+                        .userId(2L)
+                        .title("Second")
+                        .date(null)
+                        .build()
+        );
+
+        // When I hit the end point with a user id such as admin/posts/:number
+
+        expectedList.forEach(post -> postRepository.save(post));
+
+
+        String jsonPostList = objectMapper.writeValueAsString(expectedList);
+
+        MvcResult mvcResult =
+                mockMvc.perform(get("/admin/posts/2")
+                        .content(jsonPostList)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andReturn();
+
+        assertThat(jsonPostList).isEqualTo(mvcResult.getResponse().getContentAsString());
     }
 
 

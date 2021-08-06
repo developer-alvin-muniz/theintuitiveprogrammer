@@ -30,6 +30,10 @@ public class BlogApplication {
     void setUp() {
         User user = new User("alvin","12345");
         this.userService.saveUser(user);
+
+        User user2 = new User("alvin2","12345");
+        this.userService.saveUser(user2);
+
     }
 
 }
