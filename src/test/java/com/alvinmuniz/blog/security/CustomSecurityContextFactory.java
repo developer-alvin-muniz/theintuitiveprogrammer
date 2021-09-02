@@ -23,7 +23,7 @@ public class CustomSecurityContextFactory
 
         MyUserDetails myUserDetails = new MyUserDetails(user);
 
-        var a = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken a = new UsernamePasswordAuthenticationToken(
                 myUserDetails, null, null);
 
         context.setAuthentication(a);
