@@ -23,7 +23,7 @@ public class PostController {
         this.myUserDetails = myUserDetails;
     }
 
-    @GetMapping("posts")
+    @GetMapping("admin/posts")
     public List<Post> getAllPosts() {
     System.out.println(" All posts being retrieved");
         return this.postService.getAllPosts();
