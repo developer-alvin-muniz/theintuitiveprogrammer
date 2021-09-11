@@ -17,7 +17,7 @@
         dependency as you can get
     </description>
     <properties>
-        <java.version>9</java.version>
+        <java.version>11</java.version>
         <flyway-core.version>5.2.3</flyway-core.version>
     </properties>
     <dependencies>
