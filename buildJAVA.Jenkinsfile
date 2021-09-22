@@ -8,7 +8,7 @@ node('docker'){
 		dockerImage = docker.build('alvindevelopment/jenkindsdocker:v1');
 	}
 	stage('push'){
-		docker.withRegistry('https://index.docker.io/v1/', 'dockerhubcreds'){
+		docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds'){
 			dockerImage.push();
 		}
 	}
