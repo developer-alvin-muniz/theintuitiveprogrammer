@@ -7,7 +7,7 @@ node('docker'){
 	stage('build'){
 // 		dockerImage = docker.build('alvindevelopment/jenkindsdocker:v$BUILD_NUMBER');
 		sh 'mvn clean install'
-		dockerImage = docker.build('alvindevelopment/blog:v$BUILD_NUMBER', '-f springBootApp.Dockerfile');
+		dockerImage = docker.build('alvindevelopment/blog:v$BUILD_NUMBER','-f springBootApp.Dockerfile .');
 	}
 	stage('push'){
 		docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds'){
