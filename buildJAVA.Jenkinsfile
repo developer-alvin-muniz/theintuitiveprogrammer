@@ -5,12 +5,12 @@ node('docker'){
 		checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/alvin-muniz/spring-blog']]]);
 	}
 	stage('build'){
-		dockerImage = docker.build('alvindevelopment/jenkindsdocker:v$BUILD_NUMBER');
+// 		dockerImage = docker.build('alvindevelopment/jenkindsdocker:v$BUILD_NUMBER');
 		sh 'mvn clean install'
 	}
 	stage('push'){
-		docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds'){
-			dockerImage.push();
-		}
+// 		docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds'){
+// 			dockerImage.push();
+// 		}
 	}
 }
