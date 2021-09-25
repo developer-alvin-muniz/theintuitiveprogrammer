@@ -6,6 +6,10 @@ node('docker'){
 	}
 	stage('build'){
 		dockerImage = docker.build('alvindevelopment/jenkindsdocker:v$BUILD_NUMBER');
+		steps{
+		    sh 'mvn clean'
+		}
+
 	}
 	stage('push'){
 		docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds'){
