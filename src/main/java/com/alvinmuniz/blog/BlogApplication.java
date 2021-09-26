@@ -28,6 +28,7 @@ public class BlogApplication {
 
     @PostConstruct
     void setUp() {
+        // TODO delete
         User user = new User("alvin","12345");
         this.userService.saveUser(user);
 
