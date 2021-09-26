@@ -6,6 +6,7 @@ node('docker'){
 	}
 	stage('build'){
 // 		dockerImage = docker.build('alvindevelopment/jenkindsdocker:v$BUILD_NUMBER');
+        sh 'mvn -v'
 		sh 'mvn clean install'
 		dockerImage = docker.build('alvindevelopment/blog:v$BUILD_NUMBER','-f springBootApp.Dockerfile .');
 	}
