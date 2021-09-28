@@ -14,12 +14,12 @@ import java.io.IOException;
 public class BlogApplication {
 
 
-    UserRepository userRepository;
-    UserService userService;
+//    UserRepository userRepository;
+//    UserService userService;
 
     public BlogApplication(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
-        this.userService = userService;
+//        this.userRepository = userRepository;
+//        this.userService = userService;
     }
 
     public static void main(String[] args) throws IOException {
@@ -28,12 +28,6 @@ public class BlogApplication {
 
     @PostConstruct
     void setUp() {
-        // TODO delete
-        User user = new User("alvin","12345");
-        this.userService.saveUser(user);
-
-        User user2 = new User("alvin2","12345");
-        this.userService.saveUser(user2);
 
     }
 
