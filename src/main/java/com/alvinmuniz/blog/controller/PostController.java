@@ -25,7 +25,7 @@ public class PostController {
 
     @GetMapping("admin/posts")
     public List<Post> getAllPosts() {
-    System.out.println(" All posts being retrieved");
+    System.out.println(" All posts are being retrieved");
         return this.postService.getAllPosts();
     }
 
