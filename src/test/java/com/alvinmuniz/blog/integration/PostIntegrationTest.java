@@ -130,20 +130,21 @@ public class PostIntegrationTest {
     @DisplayName("It should return a list of all of the posts saved under a userId")
     public void getAllPostsByUserId() throws Exception {
         userRepository.save(User.builder()
-                .id(2L)
                 .username("Test 2")
                 .password("12345")
                 .build());
 
+        List<User> users = userRepository.findAll();
+
         // Given a list of posts
         List<Post> expectedList = Arrays.asList(
                 Post.builder()
-                        .userId(2L)
+                        .userId(users.get(0).getId())
                         .title("First")
                         .date(null)
                         .build(),
                 Post.builder()
-                        .userId(2L)
+                        .userId(users.get(0).getId())
                         .title("Second")
                         .date(null)
                         .build()
@@ -157,7 +158,7 @@ public class PostIntegrationTest {
         String jsonPostList = objectMapper.writeValueAsString(expectedList);
 
         MvcResult mvcResult =
-                mockMvc.perform(get("/admin/posts/2")
+                mockMvc.perform(get("/admin/posts/" + users.get(0).getId())
                         .content(jsonPostList)
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
