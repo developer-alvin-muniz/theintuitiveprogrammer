@@ -17,5 +17,5 @@ RUN usermod -aG docker jenkins
 RUN apt-get update
 RUN apt-get install maven -y
 RUN echo "maven installed"
-RUN systemctl start docker
+RUN systemctl --user start docker
 RUN echo "docker started"
