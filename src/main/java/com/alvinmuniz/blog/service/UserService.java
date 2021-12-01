@@ -48,7 +48,6 @@ public class UserService {
     }
 
     public ResponseEntity<LoginResponse> loginUser(LoginRequest loginRequest) {
-        System.out.println(loginRequest.toString());
 
         Long userId =
                 userRepository.findByUsername(loginRequest.getUsername()).getId();

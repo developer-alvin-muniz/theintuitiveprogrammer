@@ -32,7 +32,6 @@ public class UserController {
 
     @PostMapping("login")
     public ResponseEntity<LoginResponse> loginRegister(@RequestBody LoginRequest loginRequest) {
-        System.out.println(loginRequest.toString() + " controller hit");
         return this.userService.loginUser(loginRequest);
     }
 

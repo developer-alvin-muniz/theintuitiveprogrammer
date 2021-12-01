@@ -25,7 +25,6 @@ public class PostController {
 
     @GetMapping("admin/posts")
     public List<Post> getAllPosts() {
-    System.out.println(" All posts are being retrieved");
         return this.postService.getAllPosts();
     }
 
@@ -36,10 +35,8 @@ public class PostController {
 
     @PostMapping("admin/posts")
     public Post createPost(@RequestBody Post post) {
-        System.out.println("Post controller hit wiht " + post.toString());
         Post savedPost = this.postService.createPost(post);
 
-        System.out.println("Saved Post" + savedPost.toString());
         return savedPost;
     }
 }
