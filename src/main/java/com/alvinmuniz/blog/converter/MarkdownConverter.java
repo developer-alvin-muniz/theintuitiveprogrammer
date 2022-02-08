@@ -1,75 +1,101 @@
 package com.alvinmuniz.blog.converter;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.core.convert.converter.Converter;
+import com.alvinmuniz.blog.converter.Parser.FileParser;
+import com.alvinmuniz.blog.converter.Parser.MarkdownParser;
+import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 
+/**
+ *
+ * */
+
+@Component
 public class MarkdownConverter  {
 
+    private static FileService fileService;
+    private static final File[] oldFiles = null;
 
-    public MarkdownConverter() {
+    public MarkdownConverter(FileService fileService) {
+        this.fileService = fileService;
     }
 
     public static void main(String[] args) throws IOException {
 
-        MarkdownConverter markdownConverter = new MarkdownConverter();
+        // template file and then per markdown file we essential
+        // copy the template file and replace it with the specific markdown
+        // file information
+//            createDistFolder();
+//
+//            File directory = new File("directory");
+//            if(!directory.isDirectory()) directory.mkdir();
+//            convertMarkdownDirectoryToHtml(directory);
+//
+//            File[] htmlFiles = directory.listFiles();
+//
+//            for(File htmlFile : htmlFiles) {
+//                copyTemplateFileToNewHtml();
+//
+//                MarkdownParser
+//                        .mapTextToMarkdownTap(
+//                                FileParser.retrieveTextInSections(htmlFile));
+//
+//            }
+//
 
+        // generate the converted html string from markdown file
+            // then replace that string with the <template></template> in the
+            // markdown file
 
 
     }
 
-    public static File createDistFolder() {
+    public File copyTemplateFileToNewHtml() {
+        File templateFile = new File("template", "template.html");
+        File copiedFile = new File("template", "copy.html");
+        try {
+            if(!copiedFile.isFile()) copiedFile.createNewFile();
+            FileCopyUtils.copy(templateFile, copiedFile);
+            return copiedFile;
+        } catch (IOException exception) {
+            return copiedFile;
+        }
+    }
+
+    public File createDistFolder() {
         File outputDirectory = new File("dist");
 
         if (!outputDirectory.isDirectory()) {
             outputDirectory.mkdirs();
         }
+
         return outputDirectory;
     }
 
 
     public File convertMarkdownToHtmlFile(File markdownFile) throws IOException {
-        String splitName = this.splitFileName(markdownFile);
+
+        String splitName = fileService.splitFileName(markdownFile);
         File htmlFile = new File("directory",
                 splitName+".html");
         htmlFile.createNewFile();
         return htmlFile;
     }
 
-    public File transferFileContents(File source, File intake) throws IOException {
-//        FileInputStream in = new FileInputStream(intake);
-//        FileOutputStream out = new FileOutputStream(source);
-        FileCopyUtils.copy(source, intake);
-
-        return intake;
-
-    }
-
-
-
-    private String splitFileName(File markdownFile) {
-        String[] result = markdownFile.getName().split("\\.");
-        Arrays.stream(result).forEach(word -> System.out.println(word));
-     return  result[0];
-    }
-
-
-    public File converMarkdownDirectoryToHtml(File directory) throws IOException {
+    public File convertMarkdownDirectoryToHtml(File directory) throws IOException {
 
         File distFolder = new File("dist");
+
+        if(!distFolder.isDirectory()) distFolder.mkdir();
 
         // markdown files
         for(File file : directory.listFiles()) {
             // now we have the html file
-            File convertedFile = this.convertMarkdownToHtmlFile(file);
+            File convertedFile = convertMarkdownToHtmlFile(file);
             // move the html file to dist
-            File source = new File("directory",convertedFile.getName());
+            // todo delete source file
+            File source = new File("directory",file.getName());
             File dest = new File("dist",convertedFile.getName());
             dest.createNewFile();
             try {

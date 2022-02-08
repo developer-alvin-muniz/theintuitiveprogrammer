@@ -1,9 +1,8 @@
 package com.alvinmuniz.blog;
 
-import com.alvinmuniz.blog.model.User;
 import com.alvinmuniz.blog.repository.UserRepository;
+import com.alvinmuniz.blog.service.MarkdownConverterService;
 import com.alvinmuniz.blog.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,21 +13,20 @@ import java.io.IOException;
 public class BlogApplication {
 
 
-//    UserRepository userRepository;
-//    UserService userService;
+    private final MarkdownConverterService markdownConverterService;
 
-    public BlogApplication(UserRepository userRepository, UserService userService) {
-//        this.userRepository = userRepository;
-//        this.userService = userService;
+    public BlogApplication(MarkdownConverterService markdownConverterService) {
+        this.markdownConverterService = markdownConverterService;
     }
 
     public static void main(String[] args) throws IOException {
+
         SpringApplication.run(BlogApplication.class, args);
     }
 
     @PostConstruct
-    void setUp() {
-
+    void setUp() throws IOException {
+        this.markdownConverterService.convertAllBlogPostToHtml();
     }
 
 }
