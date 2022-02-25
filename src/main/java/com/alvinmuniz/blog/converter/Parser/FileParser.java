@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 public class FileParser {
@@ -32,14 +33,22 @@ public class FileParser {
         if (!given.isDirectory()) {
             try (BufferedReader br = new BufferedReader(new FileReader(given,
                     StandardCharsets.UTF_8))) {
-
                 StringBuilder sb = new StringBuilder();
-
                 String line;
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                     sb.append(System.lineSeparator());
                 }
+
+                while(sb.indexOf("\n") != -1) {
+                    int index = sb.indexOf("\n");
+                    sb.replace(index,index+1,"^%<br>");
+                }
+                while(sb.indexOf("^%") != -1) {
+                    int index = sb.indexOf("^%");
+                    sb.replace(index,index+2,"\n");
+                }
+
 
                 return sb.toString();
             } catch (IOException e) {

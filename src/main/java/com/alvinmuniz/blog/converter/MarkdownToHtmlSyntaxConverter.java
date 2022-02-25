@@ -51,7 +51,7 @@ public class MarkdownToHtmlSyntaxConverter {
     private String obtainOpeningTagFromType(TagType headerTag) {
         switch (headerTag) {
             case H1:
-                return "<aH1>";
+                return "<H1>";
             default:
                 return "";
         }

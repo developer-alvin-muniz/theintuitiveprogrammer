@@ -6,6 +6,7 @@ import com.alvinmuniz.blog.converter.MarkdownToHtmlSyntaxConverter;
 import com.alvinmuniz.blog.converter.Parser.FileParser;
 import com.alvinmuniz.blog.converter.Parser.MarkdownParser;
 import com.alvinmuniz.blog.converter.TagType;
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -47,6 +48,10 @@ public class MarkdownConverterService {
 
                     String finalHtmlContents =
                             markdownToHtmlSyntaxConverter.headerToContentMap(mapTextToTag);
+
+                    finalHtmlContents = Jsoup.parse(finalHtmlContents).toString();
+
+
                     if(htmlFile.exists()) htmlFile.delete();
 
                     File copiedFile = new File("dist", htmlFile.getName());

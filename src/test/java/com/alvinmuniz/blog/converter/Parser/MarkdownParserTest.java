@@ -41,7 +41,7 @@ class MarkdownParserTest {
 
         assertTrue(result.containsKey(TagType.H1));
 
-        assertEquals(result.size(), 3);
+        assertEquals(result.get(TagType.H1).size(), 3);
     }
 
     @Test

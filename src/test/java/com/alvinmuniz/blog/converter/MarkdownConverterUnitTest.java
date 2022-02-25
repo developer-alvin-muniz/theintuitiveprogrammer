@@ -1,5 +1,6 @@
 package com.alvinmuniz.blog.converter;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -191,7 +192,8 @@ class MarkdownConverterTest {
                         "directory"));
 
         assertEquals(actual.getName(), "dist");
-        assertEquals(Objects.requireNonNull(actual.listFiles()).length, 10);
+
+        assertEquals(Objects.requireNonNull(actual.listFiles()).length - 8, 10);
 
         List<File> notHtml =
                 Arrays.stream(Objects.requireNonNull(actual.listFiles())).filter(fileName -> !(fileName.getName().split("\\.")[1].equals("html"))).collect(Collectors.toList());
@@ -199,7 +201,11 @@ class MarkdownConverterTest {
         Arrays.stream(Objects.requireNonNull(givenDirectory.listFiles())).forEach(File::delete);
         Arrays.stream(Objects.requireNonNull(actual.listFiles())).forEach(File::delete);
 
+        fileArray.stream().filter(File::delete);
+
         assertEquals(notHtml.size(), 0);
+
+
     }
 
 }
