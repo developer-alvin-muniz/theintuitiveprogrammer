@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500&display=swap');
+
+h1 {
+    font-family: "Work Sans", serif;
+    margin-left: 120px;
+}
+
+
+body {
+    margin:0;
+    font-family: "Work Sans", serif;
+    font-weight: 400;
+}
+
+footer {
+    color: white;
+    position: relative;
+    bottom: 0;
+    background-color: black;
+    margin-top: 250px;
+    height: 75px;
+    width: 100%;
+}
+
+header {
+    height: 90px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+
+#circle-logo {
+    margin-right: 20px;
+}
+
+.logo {
+    width: 75px;
+    display: flex;
+    align-items: center;
+}
+
+main p {
+    margin-left: 120px;
+    margin-right: 240px;
+}
+
+.spalsh-content h1 {
+    margin-left: 120px;
+    /*margin-right: 240px;*/
+    margin:0;
+    padding: 0;
+    font-size: 72px;
+}
+
+#triangle {
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 30px solid blue;
+}
+
+#circle {
+    width: 0;
+    height: 0;
+}
+
+
