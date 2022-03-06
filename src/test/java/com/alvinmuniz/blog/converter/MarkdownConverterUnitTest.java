@@ -159,7 +159,8 @@ class MarkdownConverterTest {
         assertTrue(actual.isDirectory());
     }
 
-    @Test
+
+//    @Test
     @DisplayName("takes all files in markdown directory and saves them as html")
     void convertMarkdownDirectoryToHtml() throws IOException {
         MarkdownConverter markdownConverter = new MarkdownConverter(fileService);
