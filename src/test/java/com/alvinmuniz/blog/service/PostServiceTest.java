@@ -6,6 +6,7 @@ import com.alvinmuniz.blog.repository.PostRepository;
 import com.alvinmuniz.blog.repository.UserRepository;
 import com.alvinmuniz.blog.security.WithCustomUser;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -60,7 +62,19 @@ public class PostServiceTest {
 
     }
 
+    @Test
+    @DisplayName("should return a list of names")
+    public void shouldReturnAListOfNames() {
 
+        List<String> expected = Arrays.asList(
+                "John", "Jerri", "Joseph"
+        );
+
+        List<String> actualList = postService.listOfNames();
+
+        assertEquals(expected,actualList);
+
+    }
 
 
 }

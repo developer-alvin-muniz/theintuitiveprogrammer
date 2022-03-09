@@ -47,4 +47,10 @@ public class PostService {
                 this.postRepository.findAllByUserId(userId)
                 : Arrays.asList();
     }
+
+    public List<String> listOfNames() {
+        return Arrays.asList(
+                "John", "Jerry", "Joseph"
+        );
+    }
 }

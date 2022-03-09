@@ -4,6 +4,19 @@ h1 {
     margin-left: 120px;
 }
 
+h2 {
+    font-family: "Lora", serif;
+    margin-left: 120px;
+}
+
+pre {
+    background-color: #202746;
+    color: white;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+
 
 body {
     margin:0;

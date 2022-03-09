@@ -1,0 +1,132 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Intuitive Programmer Blog</title>
+    <meta name="description"
+          content="A blog on Java programming and more.">
+    <meta name="author" content="Alvin Muniz">
+
+    <meta property="og:title" content="The Intutive Programmer Blog">
+    <meta property="og:type" content="website">
+    <meta property="og:url"
+          content="https://www.theintuitiveprogrammer.com">
+    <meta property="og:description"
+          content="Jave Programming and more">
+    <meta property="og:image" content="image.png">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <canvas id="circle-logo"
+                    width="60"
+                    height="60"
+                    style="
+          background-color:red;
+          border-radius: 50px;
+            ">
+            </canvas>
+            <p>The Intuitive Programmer</p>
+        </div>
+    </div>
+</header>
+<main>
+    <html>
+    <head></head>
+    <body>
+    <h1>Test Driven Development: A lesson in failing first</h1>
+    <!--  <p><br><br>The math is there, with sustained effort, results become apparent. I'm using this blog to serve as a measure of my knowledge in java development. I'm hoping that at some point this might help others on their journey.<br><br>Today, during a pairing session, I had forgotten how to kill the process that is on a certain port. It was kind of agitating but it served as a reminder that we should invite such an experience to be something of good use, something that will serve to increase your understanding of a specific domain of choice given that you are deliberate about it.<br><br>Killing the process on port :8080<br><br>lsof -i :8080<br><br>this will print out the PID which you will then proceed to kill<br><br>kill -9 PID<br><br>This might feel awkward if you haven't done this stuff before, but worry not, developing an understanding of what the port is and why you need to kill it is important and an early lesson that benefits even experienced developers to revisit. <br><br>This is a quick and simple one for today and remember, as long as you do 1% of concentrated effort, you'll see the results in the long run.<br><br>Cheers,<br>Alvin<br><br></p>-->
+
+    <h2>Function under test</h2>
+    <p>Let's say we have a function that returns 3 names in a list.</p>
+            <pre>
+              <code>
+              List &lt;String&gt; listOfNames() {
+              return Arrays.asList("John", "Jerry", "Joseph");}
+              </code>
+          </pre>
+    <p>To test it, we might write a test like the below.</p>
+            <pre>
+             <code>
+            @Test
+            @DisplayName("should return a list of names")
+            public void shouldReturnAListOfNames() {
+                List &lt;String&gt; expected = Arrays.asList("John", "Jerry", "Joseph");
+                List &lt;String&gt; actualList = postService.listOfNames();
+                assertThat(expected.equals(actualList));
+            }
+             </code>
+            </pre>
+
+    <p>Great, your test most likely passed, but is this a good test? Trying
+        modifying a name in the list so that the test reflects the below and
+    run it.</p>
+            <pre>
+             <code>
+            @Test
+            @DisplayName("should return a list of names")
+            public void shouldReturnAListOfNames() {
+                List &lt;String&gt; expected = Arrays.asList("John", "Jerri", "Joseph");
+                List &lt;String&gt; actualList = postService.listOfNames();
+                assertThat(expected.equals(actualList));
+            }
+             </code>
+            </pre>
+
+    <p>This test also passed. Testing apis have a slew of different methods
+        that serve to provide a more fluent way of writing readable tests.
+        Not only is readability the key, they also serve developers but
+        asserting in a proper manner. </p>
+
+            <pre>
+             <code>
+            @Test
+            @DisplayName("should return a list of names")
+            public void shouldReturnAListOfNames() {
+                List &lt;String&gt; expected = Arrays.asList("John", "Jerri", "Joseph");
+                List &lt;String&gt; actualList = postService.listOfNames();
+                assertEquals(expected,actualList);
+            }
+             </code>
+            </pre>
+
+    <p>Now your test will fail. </p>
+
+    <h2>Fail first approach</h2>
+
+    <p>Test driven development emphasized that the process of a test shows
+        that it fails first before going green. The benefit of such a test
+        is that we are making an assertion that we do not have false
+        positives which can lead to
+        <i>sneaky</i> bugs in our production. True story.</p>
+
+    <p>It behoves an aspiring programmer to think of testing as a language.
+        Thinking of your test in terms of Given, When and Then is helpful.
+        Testing is hard and I believe it's made that much more harder
+        because of such sneaky scenarios. Test wisely friends!</p>
+
+
+    </body>
+    </html>
+</main>
+<footer>
+    Loyalty and devotion lead to bravery. Bravery leads to the spirit of
+    self-sacrifice.<br>The spirit of self-sacrifice creates trust in the power
+    of love.<br>
+    -Morihei Ueshiba
+</footer>
+<script src="js/scripts.js"></script>
+</body>
+</html>
