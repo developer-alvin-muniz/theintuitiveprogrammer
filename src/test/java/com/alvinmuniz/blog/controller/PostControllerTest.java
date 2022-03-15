@@ -48,6 +48,10 @@ class PostControllerTest {
 
     @Test
     public void it_should_return_created_post() throws Exception {
+
+        //GIVEN
+        //WHEN
+        //THEN
         when(postService.createPost(any())).thenReturn(expectedPost);
 
 
@@ -60,6 +64,25 @@ class PostControllerTest {
         verify(postService).createPost(requestPost);
         verifyNoMoreInteractions(postService);
         assertThat(addedPost).isEqualToComparingFieldByField(expectedPost);
+    }
+
+    @Test
+    public void it_should_return_list_icecream() throws Exception {
+
+        //GIVEN
+        //WHEN
+        //THEN
+        List<String> expected  = Arrays.asList(
+                "Strawberry", "Chocolate", "Purple"
+        );
+        when(postService.listOfIceCreamFlavors(any())).thenReturn(expected);
+
+        List<String> actual = postController.getAllFlavors("Blue");
+
+        verify(postService).listOfIceCreamFlavors("Blue");
+
+        verifyNoMoreInteractions(postService);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test

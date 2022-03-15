@@ -39,4 +39,9 @@ public class PostController {
 
         return savedPost;
     }
+
+    @GetMapping("admin/flavors")
+    public List<String> getAllFlavors(String flavor) {
+        return this.postService.listOfIceCreamFlavors(flavor);
+    }
 }

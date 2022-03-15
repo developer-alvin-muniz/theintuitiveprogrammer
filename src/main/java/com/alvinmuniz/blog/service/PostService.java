@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,9 +49,20 @@ public class PostService {
                 : Arrays.asList();
     }
 
-    public List<String> listOfNames() {
-        return Arrays.asList(
-                "John", "Jerry", "Joseph"
-        );
+//    public List<String> listOfNames() {
+//        return Arrays.asList(
+//                "John", "Jerry", "Joseph"
+//        );
+//    }
+
+    public List<String> listOfIceCreamFlavors(String flavor) {
+        if(flavor.equals("Blue"))
+        {
+            return Arrays.asList(
+                    "Strawberry", "Chocolate", "Purple"
+            );
+        }     else {
+            return Collections.emptyList();
+        }
     }
 }

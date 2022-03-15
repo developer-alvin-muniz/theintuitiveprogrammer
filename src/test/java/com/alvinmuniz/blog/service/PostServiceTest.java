@@ -14,10 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -62,19 +59,50 @@ public class PostServiceTest {
 
     }
 
+//    @Test
+//    @DisplayName("should return a list of names")
+//    public void shouldReturnAListOfNames() {
+//
+//        List<String> expected = Arrays.asList(
+//                "John", "Jerri", "Joseph"
+//        );
+//
+//        List<String> actualList = postService.listOfNames();
+//
+//        assertEquals(expected,actualList);
+//
+//    }
+
+
     @Test
     @DisplayName("should return a list of names")
-    public void shouldReturnAListOfNames() {
+    public void shouldReturnListOfIceCream() {
+        //GIVEN
+        String flavor = "Blue";
 
-        List<String> expected = Arrays.asList(
-                "John", "Jerri", "Joseph"
+        List<String> expected  = Arrays.asList(
+                "Strawberry", "Chocolate", "Purple"
         );
 
-        List<String> actualList = postService.listOfNames();
+        //WHEN
+        List<String> actual = postService.listOfIceCreamFlavors(flavor);
 
-        assertEquals(expected,actualList);
-
+        //THEN
+        assertEquals(actual, expected);
     }
 
+    @Test
+    @DisplayName("should return a list of names")
+    public void shouldReturnListOfIceCream_Empty() {
+        //GIVEN
+        String flavor = "Red";
 
+        List<String> expected  = Collections.emptyList();
+
+        //WHEN
+        List<String> actual = postService.listOfIceCreamFlavors(flavor);
+
+        //THEN
+        assertEquals(actual, expected);
+    }
 }
