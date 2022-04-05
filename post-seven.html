@@ -1,0 +1,141 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Intuitive Programmer Blog</title>
+    <meta name="description"
+          content="Test Driven Development: Angular Reactive Forms">
+    <meta name="author" content="Alvin Muniz">
+
+    <meta property="og:title" content="The Intuitive Programmer Blog">
+    <meta property="og:type" content="website">
+    <meta property="og:url"
+          content="https://www.theintuitiveprogrammer.com">
+    <meta property="og:description"
+          content="Jave Programming and more">
+    <meta property="og:image" content="image.png">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+<header>
+    <div class="header-content">
+        <a style="text-decoration: none; color: black" href="index.html">
+            <div class="logo">
+                <canvas id="circle-logo"
+                        width="60"
+                        height="60"
+                        style="
+            ">
+                </canvas>
+                <p id="blog-name">The Intuitive Programmer</p>
+            </div>
+        </a>
+    </div>
+</header>
+<main>
+    <html>
+    <head></head>
+    <body>
+    <h1>Test Driven Development: Angular Reactive Forms</h1>
+    <h2>Reactive forms: Learning by doing</h2>
+    <p>I've been developing using Angular for over a year. One thing that I
+        love about working with the framework is how logical it can appear. To the
+        lay programmer, it might be overly rigorous and lacking in the
+        flexibility that other development tools might have (think React). To
+        me, I love the rigor that comes in understanding it because it does
+        provide a stable productive working environment in my opinion.
+    </p>
+    <h2>Mapping your entity to your form</h2>
+    <p>Once you have an idea of what it is you are wanting to build, doing so
+        in Angular with the right pattern is trivial! Take for example this
+        coffee form example below. We initialize a form group.
+    </p>
+
+    <pre>
+             <code>
+            orderForm: FormGroup = new FormGroup({});
+             </code>
+            </pre>
+
+    <p>Then we set the fields appropriately. Not that we can set if a field
+        is required as well as set the default value of the field
+        programmatically.</p>
+
+    <pre>
+        <code>
+           ngOnInit(): void {
+    this.orderForm = this.fb.group({
+      // this maps to the name input field...the validator required denotes
+      // that it is a required field!
+      name: ['', Validators.required],
+
+      // we set email to a blank field
+      email: [''],
+
+      // we set the default selection of item to the Coffee value
+      item: ['Coffee', Validators.required],
+
+      // we set the size of the order form to default to Small
+      size: ['Small',Validators.required],
+
+      // we set the notes to be blank
+      notes: ['']
+    })
+  }
+        </code>
+    </pre>
+
+    <p>The last part is to set the formControlNames appropriately on the
+        template file. Notice how similar the form control names are to the
+        actual input fields!</p>
+    <pre>
+        <code>
+            &lt;input
+                    id="name-field"
+                    required
+                    formControlName="name"
+                    type="text"
+                    name="field1" class="field-divided"/&gt;
+        </code>
+    </pre>
+
+    <h2>Rinse and repeat</h2>
+    <p>
+        Developing intuition is a process that takes time. Angular does a
+        great job of providing predictable patterns that can be intuited on
+        when working with business logic of a varying nature. Here we can see
+        how the OrderForm might be an entity that is stored on the back end
+        and how it can easily be extended to expand on or enhance the
+        functionality of the application.
+
+        Check out this repo to see a basic test set up for validating the
+        prescence of the field and inputs. Try to expand on it!
+        <br>
+        <br>
+        <a href="https://github.com/developer-alvin-muniz/tdd-reactive-form">https://github.com/developer-alvin-muniz/tdd-reactive-form</a>
+
+    </p>
+
+
+    </body>
+    </html>
+</main>
+<footer>
+    Loyalty and devotion lead to bravery. Bravery leads to the spirit of
+    self-sacrifice.<br>The spirit of self-sacrifice creates trust in the power
+    of love.<br>
+    -Morihei Ueshiba
+</footer>
+<script src="js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Intuitive Programmer Blog</title>
+    <meta name="description"
+          content="Fixing Circular Dependency: Upgrading to Spring Boot 2.6">
+    <meta name="author" content="Alvin Muniz">
+
+    <meta property="og:title" content="The Intuitive Programmer Blog">
+    <meta property="og:type" content="website">
+    <meta property="og:url"
+          content="https://www.theintuitiveprogrammer.com">
+    <meta property="og:description"
+          content="Jave Programming and more">
+    <meta property="og:image" content="image.png">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+<header>
+    <div class="header-content">
+        <a style="text-decoration: none; color: black" href="index.html">
+            <div class="logo">
+                <canvas id="circle-logo"
+                        width="60"
+                        height="60"
+                        style="
+            ">
+                </canvas>
+                <p id="blog-name">The Intuitive Programmer</p>
+            </div>
+        </a>
+    </div>
+</header>
+<main>
+    <html>
+    <head></head>
+    <body>
+    <h1>Upgrading to Spring Boot 2.6: Dealing With Circular Dependencies</h1>
+    <h2>Spring Boot doesn't always give good errors</h2>
+    <p>I love working on personal projects. It gives me a chance to build a
+        structure in a way that makes sense to me. One of my main goals is
+        always to reinforce concepts that I seldom touch upon at work. The
+        difference between solo work and paired work is that I am developing
+        on my own and that means I am developing a muscle to problem solve on
+        my own. This is okay, but when one is developing on newer versions of
+        software solutions might not be readily available on the internet.
+    </p>
+    <h2>Circular references are prohibited by default in Spring Boot 2.6</h2>
+    <p>If you encounter circular dependencies in your Spring Boot application
+        after upgrading to Spring boot 2.6 then you might be freaking out. I
+        came across this the hard way when I attempted to reuse a security
+        module from 2.5 for 2.6. I knew I wasn't going crazy and I found out
+        that circular dependencies are prohibited. I never knew they were
+        ever allowed so this was new.
+
+        To default to the behaviour in 2.5, just add the following to your
+        config file, this is in yaml format:
+    </p>
+
+    <pre>
+             <code>
+            spring:
+                main:
+                    allow-circular-references: true
+             </code>
+            </pre>
+
+    <h2>To really fix the issue</h2>
+    <p>To really fix the issue I did some further research and found that
+        setter based injection worked well to resolve the error. This means
+        using a setter function to set your dependencies. It requires quite
+        a bit of more code but I feel it's along the lines of the better fix
+    given that it will be in no time that the above config line will be
+        deprecated.</p>
+
+    <pre>
+        <code>
+        private UserRepository userRepository;
+        public void setUserRepository(UserRepository userRepository) {
+            this.userRepository = userRepository;
+        }
+        </code>
+    </pre>
+
+    <p>It's not pretty but it works for me!</p>
+
+    <h2>The lessons in the patience</h2>
+    <p>
+        Being patient with learning anything is tough. I struggle with it all
+        of the time. However, it's important to persist through these
+        inevitable roadblocks. You will be suprised by how much one can learn
+        in the span of solving and persisting through a substantial amount of
+        problems.
+        <br>
+        <br>
+        Intuitively Yours,<br>
+        A
+
+    </p>
+
+
+    </body>
+    </html>
+</main>
+<footer>
+    Loyalty and devotion lead to bravery. Bravery leads to the spirit of
+    self-sacrifice.<br>The spirit of self-sacrifice creates trust in the power
+    of love.<br>
+    -Morihei Ueshiba
+</footer>
+<script src="js/scripts.js"></script>
+</body>
+</html>
